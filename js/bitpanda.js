@@ -92,9 +92,9 @@ module.exports = class bitpanda extends Exchange {
             'version': 'v1',
             'urls': {
                 'api': {
-                    'v1': 'https://api.exchange.bitpanda.com/public/',
-                    'public': 'https://api.exchange.bitpanda.com/public/',
-                    'private': 'https://api.exchange.bitpanda.com/public/',
+                    'v1': 'https://api.exchange.waskurzes.com/public/',
+                    'public': 'https://api.exchange.waskurzes.com/public/',
+                    'private': 'https://api.exchange.waskurzes.com/public/',
                 },
                 'www': 'https://www.bitpanda.com',
                 'doc': [
@@ -272,12 +272,15 @@ module.exports = class bitpanda extends Exchange {
             'type': type.toUpperCase (),
             'amount': this.amountToPrecision (symbol, amount),
         };
-        if (type === 'limit' || this.safeString (params, 'type') === 'stoplimit') {
+        // bitpanda pro has two order types that require price
+        if ((type && ['limit', 'stop'].indexOf(type.toLowerCase())) || this.safeString (params, 'type') === 'stoplimit') {
             request['price'] = this.priceToPrecision (symbol, price);
         }
-        if (this.safeString (params, 'type') === 'stoplimit') {
+
+        if ((type && 'stop' === type.toLowerCase()) || this.safeString (params, 'type') === 'stoplimit') {
             request['trigger_price'] = this.priceToPrecision (symbol, this.safeFloat (params, 'stopPrice'));
         }
+
         const response = await this.privatePostAccountOrders (this.extend (request, params));
         return this.parseOrder (response);
     }
