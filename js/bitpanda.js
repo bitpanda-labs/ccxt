@@ -92,8 +92,8 @@ module.exports = class bitpanda extends Exchange {
             'version': 'v1',
             'urls': {
                 'api': {
-                    'v1': 'https://api.exchange.waskurzes.com/public/',
-                    'public': 'https://api.exchange.waskurzes.com/public/',
+                    'v1': 'https://api.exchange.bitpanda.com/public/',
+                    'public': 'https://api.exchange.bitpanda.com/public/',
                     'private': 'https://api.exchange.waskurzes.com/public/',
                 },
                 'www': 'https://www.bitpanda.com',
